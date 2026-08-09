@@ -18,7 +18,7 @@ export function Register() {
         const response = await api.post("/register", {
           name: name,
           email: email,
-          password_hash: password
+          password: password
         });
 
         console.log("Usuário criado: ", response.data);

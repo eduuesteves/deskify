@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -21,7 +21,11 @@ export function Login() {
                     password: password
                 });
 
-                console.log("Usuário logado com sucesso: ", response.data);
+                const { token, user } = response.data;
+                localStorage.setItem("@deskify:token", token);
+                localStorage.setItem("@deskify:user", JSON.stringify(user))
+
+                console.log("Login bem-sucedido!");
 
                 navigate("/dashboard")
             } catch(error) {
