@@ -7,8 +7,8 @@ datasource db {
 }
 
 model Users {
-  id              String         @id @default(uuid())
+  id              String  @id @default(uuid())
   name            String
   password_hash   String
-  email           String
+  email           String  @unique
 }

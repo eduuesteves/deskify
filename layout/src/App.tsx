@@ -1,10 +1,20 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Register } from './pages/Register';
+import { Login } from './pages/Login'; // Importe o seu novo componente de Login
 import "./App.scss";
+import { Dashboard } from './pages/Dashboard';
 
 function App() {
   return (
-    <Register />
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
