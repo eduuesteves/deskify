@@ -1,0 +1,15 @@
+.switch-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #4338ca;
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #312e81;
+    text-decoration: underline;
+  }
+}

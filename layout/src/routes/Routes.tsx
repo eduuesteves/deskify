@@ -7,6 +7,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
 
 export function AppRoutes() {
+
   return (
     <BrowserRouter>
       <Routes>

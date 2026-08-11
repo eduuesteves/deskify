@@ -1,77 +1,82 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import "./styles.scss";
 
 export function Login() {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+ async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-        if(email && password) {
-            try {
-                setIsLoading(true);
-
-                const response = await api.post("/login", {
-                    email: email,
-                    password: password
-                });
-
-                const { token, user } = response.data;
-                localStorage.setItem("@deskify:token", token);
-                localStorage.setItem("@deskify:user", JSON.stringify(user))
-
-                console.log("Login bem-sucedido!");
-
-                navigate("/dashboard")
-            } catch(error) {
-                console.error("Erro ao logar: ", error);
-            } finally {
-                setIsLoading(false);
-            }
-        }
+    if (!email || !password) {
+      alert("Preencha todos os campos");
+      return;
     }
 
-    return (
-        <div className="register-container">
-            <div className="register-card">
-                <h2>Entrar</h2>
-                <p>Acesse sua cotna para gerenciar seus chamados.</p>
+    try {
+      setIsLoading(true);
 
-                <form onSubmit={handleSubmit} className="register-form">
-                    <div className="input-group">
-                        <label htmlFor="email">E-mail corporativo</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
-                            value={email}
-                            onChange={(e) => setEmail(e.currentTarget.value)}
-                            placeholder="eduardo@empresa.com"
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="password">Senha</label>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.currentTarget.value)}
-                            placeholder="Digite sua senha"
-                            required
-                        />
-                    </div>
-                    <button type="submit" disabled={isLoading}>
-                        {isLoading ? "Entrando..." : "Entrar"}
-                    </button>
-                </form>
-            </div>
+      const response = await api.post("/login", { email, password });
+      const { token, user } = response.data;
+
+      await login(user, token);
+
+      await navigate("/dashboard", { replace: true });
+
+    } catch (error: any) {
+      console.error("ERRO DETALHADO:", error);
+      alert("Email ou senha incorretos.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  return (
+    <div className="login-container">
+      <div className="login-card">
+        <div className="brand-header">
+          <h2>Bem-vindo de volta</h2>
+          <p>Entre com suas credenciais para acessar o painel</p>
         </div>
-    )
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="input-group">
+            <label htmlFor="email">E-mail</label>
+            <input 
+              id="email"
+              type="email" 
+              placeholder="seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="password">Senha</label>
+            <input 
+              id="password"
+              type="password" 
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Entrando..." : "Entrar na plataforma"}
+          </button>
+        </form>
+
+        <span className="switch-link">
+          Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+        </span>
+      </div>
+    </div>
+  );
 }

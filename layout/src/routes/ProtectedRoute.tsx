@@ -1,11 +1,21 @@
-import { Navigate, Outlet } from "react-router-dom";
+// src/routes/ProtectedRoute.tsx
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export function ProtectedRoute() {
-    const token = localStorage.getItem("@deskify:token");
+  const { isAuthenticated, isLoading } = useAuth();
 
-    if(!token) {
-        return <Navigate to="/login" replace />;
-    }
-    
-    return <Outlet />;
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif' }}>
+        <p>Carregando sistema...</p>
+      </div>
+    );
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 }

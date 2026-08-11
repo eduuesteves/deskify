@@ -32,7 +32,7 @@ routerUser.post("/login", async (req: Request, res: Response) => {
         const secret = (process.env.JWT_SECRET as string);
 
         const token = jwt.sign(
-            { id: user.id },
+            { id: user.id, role: user.role },
             secret,
             { expiresIn: "1d" }
         )
@@ -43,7 +43,9 @@ routerUser.post("/login", async (req: Request, res: Response) => {
             user: {
                 id: user.id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                role: user.role,
+                photo: user.photo
             }
          });
     } catch(error) {
