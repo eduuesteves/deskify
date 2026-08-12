@@ -5,6 +5,7 @@ import { Login } from '../pages/Login';
 import { Dashboard } from '../pages/Dashboard';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
+import { Profile } from '../pages/Profile';
 
 export function AppRoutes() {
 
@@ -23,6 +24,7 @@ export function AppRoutes() {
         {/* ROTAS PRIVADAS */}
         <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

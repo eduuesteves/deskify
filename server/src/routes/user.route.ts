@@ -52,7 +52,7 @@ routerUser.post("/login", async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({ message: "Erro interno no servidor" });
     }
-})
+});
 
 routerUser.post("/register", async (req: Request, res: Response) => {
     try {
@@ -82,5 +82,58 @@ routerUser.post("/register", async (req: Request, res: Response) => {
         console.error(error);
 
         return res.status(500).json({ error: "Erro interno no servidor ao tentar criar o usuário"});
+    }
+});
+
+routerUser.patch("/users", async (req: Request, res: Response) => {
+    try {
+
+        const { name, photo } = req.body;
+        const authHeader = req.headers.authorization;
+        
+        if(!authHeader) {
+            return res.status(401).json({ error: "Token não fornecido" });
+        }
+
+    const [_, token] = authHeader.split(" ");
+
+    const secret = process.env.JWT_SECRET as string;
+    let userId: string;
+
+    try {
+        const decoded = jwt.verify(token, secret) as { id: string };
+        userId = decoded.id;
+    } catch(error) {
+        return res.status(401).json({ error: "Token inválido ou expirado" })
+    }
+
+    if (!name && !photo) {
+            return res.status(400).json({ error: "Envie pelo menos o nome ou a foto para atualizar." });
+    }
+
+    const updatedUser = await prisma.users.update({
+            where: {
+                id: userId
+            },
+            data: {
+                name: name,
+                photo: photo
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                photo: true,
+            }
+        })
+
+        return res.status(200).json({ 
+            message: "Informações altaradas com sucesso",
+            user: updatedUser
+        })
+    } catch(error) {
+        console.error(error);
+        return res.status(500).json({ error: "Erro interno ao atualizar usuário" });
     }
 })

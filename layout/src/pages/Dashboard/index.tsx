@@ -1,25 +1,44 @@
-/* src/pages/Dashboard/index.tsx */
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import './styles.scss'; 
 
 export function Dashboard() {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
 
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-card">
-                <h1>Olá, {user?.name}! 👋</h1>
+        <div className="dashboard-layout">
+            <header className="dashboard-header">
+                <div className="brand-wrapper">
+                    <h1>Deskify</h1>
+                    <span className="role-badge">{user?.role}</span>
+                </div>
                 
-                <span className="role-badge">
-                    {user?.role}
-                </span>
+                <div className="header-actions">
+                    <div 
+                        className="profile-trigger" 
+                        onClick={() => navigate('/profile')}
+                        title="Ver perfil"
+                    >
+                        <img 
+                            src={user?.photo || "https://api.dicebear.com/7.x/avataaars/svg?seed=default"} 
+                            alt={user?.name || "Usuário"} 
+                        />
+                        <span className="profile-name">{user?.name}</span>
+                    </div>
 
-                <p>Email: {user?.email}</p>
-                
-                <button onClick={logout}>
-                    Sair da conta
-                </button>
-            </div>
+                    <button className="logout-btn" onClick={logout}>
+                        Sair
+                    </button>
+                </div>
+            </header>
+
+            <main className="dashboard-content">
+                <div className="welcome-card">
+                    <h2>Olá, {user?.name}! 👋</h2>
+                    <p>Seja bem-vindo de volta ao seu painel Deskify.</p>
+                </div>
+            </main>
         </div>
     );
 }
