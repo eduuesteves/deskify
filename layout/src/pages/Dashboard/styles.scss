@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
 .dashboard-layout {
   display: flex;
   flex-direction: column;
@@ -7,95 +5,6 @@
   background-color: #f8fafc;
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: #0f172a;
-}
-
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 2.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
-
-  .brand-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #4f46e5;
-      letter-spacing: -0.025em;
-    }
-
-    .role-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #4f46e5;
-      background-color: #e0e7ff;
-      padding: 0.2rem 0.625rem;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-
-    .profile-trigger {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      cursor: pointer;
-      padding: 0.35rem 0.875rem 0.35rem 0.35rem;
-      border-radius: 50px;
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: #f1f5f9;
-        border-color: #cbd5e1;
-      }
-
-      img {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #4f46e5;
-      }
-
-      .profile-name {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #334155;
-      }
-    }
-
-    .logout-btn {
-      background-color: #ffffff;
-      color: #000000;
-      border: 1px solid #fecaca;
-      padding: 0.6rem 1.125rem;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: #fef2f2;
-        border-color: #000;
-      }
-    }
-  }
 }
 
 .dashboard-content {
@@ -106,25 +15,60 @@
   margin: 0 auto;
   box-sizing: border-box;
 
-  .welcome-card {
-    background: #ffffff;
+  .welcome-banner {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    color: #ffffff;
     padding: 2.5rem;
     border-radius: 20px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
 
-    h2 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.025em;
+    .welcome-text {
+      h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.875rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: #ffffff;
+      }
+
+      p {
+        margin: 0;
+        color: #e0e7ff;
+        font-size: 1rem;
+        font-weight: 500;
+      }
     }
 
-    p {
-      margin: 0;
-      color: #64748b;
-      font-size: 1rem;
+    .quick-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #34d399;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #34d399;
+      }
     }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
   }
 }

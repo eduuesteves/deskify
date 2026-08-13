@@ -1,42 +1,57 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { Header } from '../../components/Header';
+import { DashboardCard } from '../../components/DashboardCard';
 import './styles.scss'; 
 
 export function Dashboard() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     return (
         <div className="dashboard-layout">
-            <header className="dashboard-header">
-                <div className="brand-wrapper">
-                    <h1>Deskify</h1>
-                    <span className="role-badge">{user?.role}</span>
-                </div>
-                
-                <div className="header-actions">
-                    <div 
-                        className="profile-trigger" 
-                        onClick={() => navigate('/profile')}
-                        title="Ver perfil"
-                    >
-                        <img 
-                            src={user?.photo || "https://api.dicebear.com/7.x/avataaars/svg?seed=default"} 
-                            alt={user?.name || "Usuário"} 
-                        />
-                        <span className="profile-name">{user?.name}</span>
-                    </div>
+            {/* Header Isolado */}
+            <Header />
 
-                    <button className="logout-btn" onClick={logout}>
-                        Sair
-                    </button>
-                </div>
-            </header>
-
+            {/* Conteúdo Principal */}
             <main className="dashboard-content">
-                <div className="welcome-card">
-                    <h2>Olá, {user?.name}! 👋</h2>
-                    <p>Seja bem-vindo de volta ao seu painel Deskify.</p>
+                <section className="welcome-banner">
+                    <div className="welcome-text">
+                        <h2>Olá, {user?.name}! 👋</h2>
+                        <p>Aqui está o resumo das suas atividades e atalhos rápidos do sistema.</p>
+                    </div>
+                    <div className="quick-status">
+                        <span className="status-dot"></span>
+                        <span>Sistema Online</span>
+                    </div>
+                </section>
+
+                {/* Grid utilizando os Cards Modularizados */}
+                <div className="dashboard-grid">
+                    <DashboardCard 
+                        icon="👤"
+                        iconVariant="profile"
+                        title="Meu Perfil"
+                        description="Atualize suas informações pessoais, foto de avatar e altere sua senha de acesso."
+                        actionText="Acessar perfil →"
+                        onClick={() => navigate('/profile')}
+                    />
+
+                    <DashboardCard 
+                        icon="📊"
+                        iconVariant="metrics"
+                        title="Visão Geral"
+                        description="Acompanhe métricas em tempo real, chamados ativos e estatísticas do Deskify."
+                        tag="Em breve"
+                    />
+
+                    <DashboardCard 
+                        icon="⚙️"
+                        iconVariant="settings"
+                        title="Configurações"
+                        description="Gerencie preferências da conta, notificações e parâmetros do sistema."
+                        tag="Em breve"
+                    />
                 </div>
             </main>
         </div>

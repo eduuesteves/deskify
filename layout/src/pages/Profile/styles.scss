@@ -41,19 +41,27 @@
 
 .profile-content {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
+  box-sizing: border-box;
+
+  // Grid responsivo para alinhar os dois cards lado a lado ou empilhados no mobile
+  .profile-container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 2rem;
+    max-width: 1040px;
+    margin: 0 auto;
+    align-items: start;
+  }
 
   .profile-card {
     background: #ffffff;
     padding: 2.5rem;
     border-radius: 20px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
     width: 100%;
-    max-width: 480px;
+    box-sizing: border-box;
 
     h2 {
       margin: 0 0 0.25rem 0;
@@ -121,6 +129,25 @@
             background-color: #ffffff;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
           }
+
+          // Estados dinâmicos de borda para senha forte/fraca
+          &.input-invalid {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+            &:focus {
+              border-color: #ef4444;
+              box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+            }
+          }
+
+          &.input-valid {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+            &:focus {
+              border-color: #10b981;
+              box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+            }
+          }
         }
       }
 
@@ -143,11 +170,139 @@
         }
 
         &:disabled {
-          background: #a5b4fc;
+          background: #cbd5e1;
+          color: #64748b;
           cursor: not-allowed;
           box-shadow: none;
+          transform: none;
         }
       }
+    }
+  }
+}
+
+// Banners de Feedback
+.banner-success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.banner-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+// Pílulas de Segurança Modernas
+.security-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.625rem;
+
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &.met {
+      background-color: #ecfdf5;
+      color: #059669;
+      border-color: #a7f3d0;
+      font-weight: 600;
+      transform: translateY(-1px);
+    }
+  }
+}
+// Wrapper para alinhar o input de senha com o botão de alternar visibilidade
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    padding-right: 4rem !important; // Espaço para o botão de ver/ocultar não cobrir o texto
+  }
+
+  .toggle-eye {
+    position: absolute;
+    right: 0.75rem;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #64748b !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    padding: 0.25rem 0.5rem !important;
+    cursor: pointer;
+    margin-top: 0 !important;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #4f46e5 !important;
+      transform: none !important;
+    }
+  }
+}
+
+// Barra de progresso de força da senha
+.password-strength-container {
+  margin-top: 0.5rem;
+
+  .strength-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+
+    .strength-text {
+      font-weight: 700;
+      &.strong {
+        color: #059669;
+      }
+    }
+  }
+
+  .strength-bar-bg {
+    width: 100%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .strength-bar-fill {
+      height: 100%;
+      transition: width 0.3s ease, background-color 0.3s ease;
+      border-radius: 4px;
+
+      // Cores dinâmicas baseadas na força
+      &.level-1, &.level-2 { background-color: #ef4444; } // Vermelho (Fraca)
+      &.level-3, &.level-4 { background-color: #f59e0b; } // Amarelo (Média)
+      &.level-5 { background-color: #10b981; }             // Verde (Forte)
     }
   }
 }

@@ -62,6 +62,14 @@ routerUser.post("/register", async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Nome, e-mail e senha são obrigatórios!"})
         }
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if(!passwordRegex.test(password)) {
+            return res.status(400).json({
+                error: "A senha deve ter no mínimo 8 caracteres, contendo letras maiúsculas, minúsculas, números e caracteres especiais."
+            })
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await prisma.users.create({
@@ -136,4 +144,70 @@ routerUser.patch("/users", async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({ error: "Erro interno ao atualizar usuário" });
     }
-})
+});
+
+routerUser.patch("/users/password", async (req: Request, res: Response) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if(!authHeader) { 
+            return res.status(401).json({
+                error: "Token não fornecido"
+            })
+        }
+
+        const [_, token] = authHeader.split(" ");
+        const secret = process.env.JWT_SECRET as string;
+        let userId: string;
+
+        try {
+            const decoded = jwt.verify(token, secret) as { id: string };
+            userId = decoded.id;
+        } catch(error) {
+            return res.status(401).json({ error: "Token inválido ou expirado." });
+        }
+
+        const { oldPassword, newPassword } = req.body;
+
+        if(!oldPassword || !newPassword) {
+            return res.status(400).json({ error: "Informe a senha atual e a nova senha" });
+        }
+
+        const user = await prisma.users.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        if(!user) {
+            return res.status(404).json({ error: "Usuário não encontrado." });
+        }
+
+        const isOldPasswordValid = await bcrypt.compare(oldPassword, newPassword);
+        if(!isOldPasswordValid) {
+            return res.status(401).json({ error: "A senha atual está incorreta." });
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({ 
+                error: "A nova senha deve ter no mínimo 8 caracteres, contendo letras maiúsculas, minúsculas, números e caracteres especiais." 
+            });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        await prisma.users.update({
+            where: {
+                id: userId
+            },
+            data: {
+                password: hashedNewPassword
+            }
+        })
+
+        return res.status(200).json({ message: "Senha alterada com sucesso" })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Erro interno ao alterar a senha." });
+    }
+});

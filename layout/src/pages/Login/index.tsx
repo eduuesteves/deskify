@@ -26,9 +26,9 @@ export function Login() {
       const response = await api.post("/login", { email, password });
       const { token, user } = response.data;
 
-      await login(user, token);
+      login(user, token);
 
-      await navigate("/dashboard", { replace: true });
+      navigate("/dashboard", { replace: true });
 
     } catch (error: any) {
       console.error("ERRO DETALHADO:", error);
