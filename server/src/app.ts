@@ -2,9 +2,9 @@ dotenv.config();
 import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { routerUser } from "./routes/user.route";
+import { routerUser } from "./routes/user.route.ts";
 
-const app = express();
+export const app = express();
 const port = process.env.PORT;
 
 app.use(cors());

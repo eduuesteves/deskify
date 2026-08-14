@@ -10,10 +10,8 @@ export function Dashboard() {
 
     return (
         <div className="dashboard-layout">
-            {/* Header Isolado */}
             <Header />
 
-            {/* Conteúdo Principal */}
             <main className="dashboard-content">
                 <section className="welcome-banner">
                     <div className="welcome-text">
@@ -26,7 +24,6 @@ export function Dashboard() {
                     </div>
                 </section>
 
-                {/* Grid utilizando os Cards Modularizados */}
                 <div className="dashboard-grid">
                     <DashboardCard 
                         icon="👤"

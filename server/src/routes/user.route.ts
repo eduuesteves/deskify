@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import Router, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { prisma } from "../database/connection";
+import { prisma } from "../database/connection.ts";
 
 export const routerUser = Router();
 
