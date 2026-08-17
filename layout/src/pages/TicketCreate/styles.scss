@@ -1,0 +1,111 @@
+.ticket-create-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #0f172a;
+}
+
+.ticket-create-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+
+  .form-card {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+
+    .form-header {
+      margin-bottom: 2rem;
+
+      h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      p {
+        margin: 0;
+        color: #64748b;
+        font-size: 0.9rem;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #334155;
+        }
+
+        input, select, textarea {
+          padding: 0.875rem;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          font-family: inherit;
+          font-size: 0.95rem;
+          color: #0f172a;
+          outline: none;
+          transition: border-color 0.2s;
+
+          &:focus {
+            border-color: #4f46e5;
+          }
+        }
+
+        textarea { resize: vertical; }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        button {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-cancel {
+          background: transparent;
+          border: 1px solid #cbd5e1;
+          color: #64748b;
+
+          &:hover { background: #f1f5f9; }
+        }
+
+        .btn-submit {
+          background: #4f46e5;
+          border: none;
+          color: #ffffff;
+
+          &:hover { background: #4338ca; }
+          &:disabled { background: #94a3b8; }
+        }
+      }
+    }
+  }
+}

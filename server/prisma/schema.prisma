@@ -15,4 +15,33 @@ model Users {
   photo       String?
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
+  tickets   Ticket[]
+
+  @@map("users")
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Ticket {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  status      TicketStatus   @default(OPEN)
+  priority    TicketPriority @default(MEDIUM)
+  userId      String
+  user        Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  @@map("tickets")
 }

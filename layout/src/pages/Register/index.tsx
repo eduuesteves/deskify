@@ -43,7 +43,7 @@ export function Register() {
     try {
       setIsLoading(true);
 
-      await api.post("/users", { name, email, password });
+      await api.post("/register", { name, email, password });
 
       setSuccessMessage("Conta criada com sucesso! Redirecionando...");
 

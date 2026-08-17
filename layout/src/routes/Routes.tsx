@@ -6,6 +6,8 @@ import { Dashboard } from '../pages/Dashboard';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
 import { Profile } from '../pages/Profile';
+import { TicketCreate } from '../pages/TicketCreate';
+import { TicketDetail } from '../components/TicketDetail';
 
 export function AppRoutes() {
 
@@ -25,6 +27,8 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/ticket" element={<TicketCreate />} />
+            <Route path="/ticket/:id" element={<TicketDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>
